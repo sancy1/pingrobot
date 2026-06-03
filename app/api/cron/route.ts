@@ -9,9 +9,33 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 minutes max execution time for long-running pings
 
 // Authentication check for cron endpoint
+// function isAuthorized(request: NextRequest): boolean {
+//   const authHeader = request.headers.get('authorization');
+//   const cronSecret = process.env.CRON_SECRET || '9GyRFL7aiigpjJ6X78p/atfMlyfLyG9g9u+8Xo=';
+
+//   // Check bearer token
+//   if (authHeader === `Bearer ${cronSecret}`) {
+//     return true;
+//   }
+
+//   // Also check query parameter for testing
+//   const url = new URL(request.url);
+//   const token = url.searchParams.get('token');
+//   if (token === cronSecret) {
+//     return true;
+//   }
+
+//   return false;
+// }
+
+
+
+// Authentication check for cron endpoint
 function isAuthorized(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET || '9GyRFL7aiigpjJ6X78p/atfMlyfLyG9g9u+8Xo=';
+  
+  // Set your universal project secret key as the definitive fallback
+  const cronSecret = process.env.CRON_SECRET || process.env.EXTERNAL_API_KEY || 'ZoY098Sd0aDIl7TdLi4V4fiYIoyo';
 
   // Check bearer token
   if (authHeader === `Bearer ${cronSecret}`) {
@@ -27,6 +51,8 @@ function isAuthorized(request: NextRequest): boolean {
 
   return false;
 }
+
+
 
 // CORS headers for external access (if needed)
 function corsResponse(data: any, status = 200) {

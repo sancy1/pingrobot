@@ -488,3 +488,12 @@ Repository: https://github.com/sancy1/pingrobot
 Documentation: See README.md
 
 This completes the API Consumption Guide. All endpoints are ready for external integration! 🎯
+
+
+
+
+DEPLOYED URL:
+pingrobot-seven.vercel.app
+https://pingrobot-seven.vercel.app/
+
+https://pingrobot-seven.vercel.app/api/cron/ping-worker
