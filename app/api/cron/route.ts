@@ -30,27 +30,57 @@ export const maxDuration = 300; // 5 minutes max execution time for long-running
 
 
 
-// Authentication check for cron endpoint
+
+
 function isAuthorized(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization');
   
-  // Set your universal project secret key as the definitive fallback
-  const cronSecret = process.env.CRON_SECRET || process.env.EXTERNAL_API_KEY || 'ZoY098Sd0aDIl7TdLi4V4fiYIoyo';
+  // Hardcode your universal app key directly into the fallback array
+  const allowedSecrets = [
+    process.env.CRON_SECRET,
+    process.env.EXTERNAL_API_KEY,
+    'ZoY098Sd0aDIl7TdLi4V4fiYIoyo' // Your universal key
+  ];
 
-  // Check bearer token
-  if (authHeader === `Bearer ${cronSecret}`) {
+  // Check if the bearer token matches ANY of our valid keys
+  const cleanHeader = authHeader?.replace('Bearer ', '');
+  if (allowedSecrets.includes(cleanHeader)) {
     return true;
   }
 
-  // Also check query parameter for testing
+  // Check URL token parameter
   const url = new URL(request.url);
   const token = url.searchParams.get('token');
-  if (token === cronSecret) {
+  if (token && allowedSecrets.includes(token)) {
     return true;
   }
 
   return false;
 }
+
+
+
+// Authentication check for cron endpoint
+// function isAuthorized(request: NextRequest): boolean {
+//   const authHeader = request.headers.get('authorization');
+  
+//   // Set your universal project secret key as the definitive fallback
+//   const cronSecret = process.env.CRON_SECRET || process.env.EXTERNAL_API_KEY || 'ZoY098Sd0aDIl7TdLi4V4fiYIoyo';
+
+//   // Check bearer token
+//   if (authHeader === `Bearer ${cronSecret}`) {
+//     return true;
+//   }
+
+//   // Also check query parameter for testing
+//   const url = new URL(request.url);
+//   const token = url.searchParams.get('token');
+//   if (token === cronSecret) {
+//     return true;
+//   }
+
+//   return false;
+// }
 
 
 
