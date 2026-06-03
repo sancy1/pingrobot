@@ -1,0 +1,27 @@
+{
+  "name": "PingRobot",
+  "short_name": "PingRobot",
+  "description": "Aggressive URL Monitoring & Wake-Up Tool. Keep your cloud services awake with 60-second timeout + 3 retry attempts.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0a0a1a",
+  "background_color": "#0a0a1a",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "developer-tools", "utilities"],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

@@ -815,7 +815,7 @@
 
 'use client'
 
-import { Home, Plus, Filter, ArrowUpDown, ChevronLeft, ChevronRight, Search, X, ArrowUp, ArrowDown, Circle, CheckCircle, XCircle, AlertCircle, Menu } from 'lucide-react'
+import { Home, Plus, Filter, Zap, ArrowUpDown, LayoutDashboard, Activity, ChevronLeft, ChevronRight, Search, X, ArrowUp, ArrowDown, Circle, CheckCircle, XCircle, AlertCircle, Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
@@ -962,7 +962,42 @@ export function Sidebar({
   const SidebarContent = () => (
     <>
       {/* Top Section - Logo and Toggle */}
+      {/* Top Section - Logo and Toggle */}
       <div className="w-full px-3 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 group" onClick={handleNavigation}>
+          {/* 🛠️ FILED FIX: Swapped emerald-teal for true dark-neutral backing and glowing orange neon signature */}
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-b from-neutral-800 to-neutral-900 border border-neutral-700 flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(249,115,22,0.15)] flex-shrink-0 transition-all duration-300 group-hover:border-orange-500/40 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+            <Zap className="w-5 h-5 text-orange-500 filter drop-shadow-[0_0_4px_rgba(249,115,22,0.6)] group-hover:scale-110 transition-transform" />
+          </div>
+          {(!isCollapsed || isMobile) && (
+            <span className="text-sm font-black tracking-tight text-white uppercase font-sans select-none">
+              Ping<span className="text-orange-500 filter drop-shadow-[0_0_6px_rgba(249,115,22,0.5)]">Robot</span>
+            </span>
+          )}
+        </Link>
+        {!isCollapsed && !isMobile && (
+          <button
+            onClick={() => {
+              setIsExpanded(false)
+              setWidth(80)
+            }}
+            className="p-1.5 hover:bg-neutral-900 rounded-lg transition-colors border border-transparent hover:border-neutral-800"
+            title="Collapse Sidebar"
+          >
+            <ChevronLeft size={16} className="text-neutral-400" />
+          </button>
+        )}
+        {isMobile && (
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-1.5 hover:bg-neutral-900 rounded-lg transition-colors border border-transparent hover:border-neutral-800"
+          >
+            <X size={18} className="text-neutral-400" />
+          </button>
+        )}
+      </div>
+
+      {/* <div className="w-full px-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group" onClick={handleNavigation}>
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center font-bold text-white text-lg shadow-lg flex-shrink-0 transition-transform group-hover:scale-105">
             P
@@ -991,7 +1026,7 @@ export function Sidebar({
             <X size={18} className="text-muted-foreground" />
           </button>
         )}
-      </div>
+      </div> */}
 
       {/* Navigation Buttons - Centered on mobile */}
       <nav className="flex flex-col gap-1.5 w-full px-2 mt-6">
