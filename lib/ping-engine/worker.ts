@@ -1,10 +1,11 @@
+
 // // lib/ping-engine/worker.ts
 // // CORE PING ENGINE - Aggressive wake-up detection with 60-second timeout + retries
 // // Replicates Python's wake-up logic: 60s timeout, 3 retries, 5s threshold detection
 
 // import { dbManager } from '@/lib/db';
 // import { monitors, pingResults } from '@/lib/db/schema';
-// import { eq, desc } from 'drizzle-orm';
+// import { eq, desc, and, or, lte, isNull } from 'drizzle-orm';
 
 // // ============================================
 // // CONFIGURATION - Matches Python's aggressive settings
@@ -40,7 +41,7 @@
 // }
 
 // // ============================================
-// // CORE PING FUNCTION - Aggressive wake-up logic
+// // CORE PING FUNCTIONALITIES
 // // ============================================
 // export class PingWorker {
   
@@ -126,7 +127,6 @@
 //       if (error.name === 'AbortError') {
 //         console.log(`  ⏰ Timeout after ${timeoutMs}ms - Server may be sleeping`);
         
-//         // 🚀 FIXED: Point context explicitly to class wrapper instead of "this" to survive isolated async scope errors
 //         if (retryCount < PING_CONFIG.MAX_RETRIES) {
 //           const backoffDelay = PING_CONFIG.RETRY_BACKOFF_MS * (retryCount + 1);
 //           console.log(`  🔄 Retry ${retryCount + 1}/${PING_CONFIG.MAX_RETRIES} after ${backoffDelay}ms...`);
@@ -172,7 +172,6 @@
 //         await dbManager.connect();
 //       }
       
-//       // FIXED: Await the async method invocation to cleanly resolve the active Drizzle context instance
 //       const db = await dbManager.getDb();
       
 //       // Get monitor configuration
@@ -197,7 +196,7 @@
 //       // Execute the ping with aggressive retry logic
 //       const pingResult = await PingWorker.pingUrl(monitor.url, monitor.timeoutMs);
 
-//       // FIXED: Safely stringify JSONB objects before database insertion to prevent payload mapping conflicts
+//       // Safely stringify JSONB objects before database insertion to prevent payload mapping conflicts
 //       const jsonResponseString = pingResult.jsonResponse ? JSON.stringify(pingResult.jsonResponse) : null;
       
 //       // Store result in database
@@ -215,7 +214,7 @@
 //         createdAt: new Date(),
 //       }).returning();
       
-//       console.log(`   📊 Result stored (ID: ${savedResult.id})`);
+//       console.log(`    📊 Result stored (ID: ${savedResult.id})`);
       
 //       // Update monitor statistics
 //       const totalPings = (monitor.totalPings || 0) + 1;
@@ -278,7 +277,101 @@
 //       return null;
 //     }
 //   }
+
+//   /**
+//    * Process all due monitors and execute their pings.
+//    * Efficiently targets DB filtering to avoid in-memory filtering blocks.
+//    * Used by both local node-cron loop routines and Vercel cloud architecture triggers.
+//    */
+//   static async processDueMonitors(): Promise<{
+//     processed: number;
+//     succeeded: number;
+//     failed: number;
+//     skipped: number;
+//   }> {
+//     try {
+//       if (!dbManager.isConnected()) {
+//         await dbManager.connect();
+//       }
+      
+//       const db = await dbManager.getDb();
+//       const now = new Date();
+      
+//       // Optimized DB filter: Fetch only monitors where isActive is true AND (nextPingAt <= now OR nextPingAt IS NULL)
+//       const dueMonitors = await db
+//         .select()
+//         .from(monitors)
+//         .where(
+//           and(
+//             eq(monitors.isActive, true),
+//             or(
+//               lte(monitors.nextPingAt, now),
+//               isNull(monitors.nextPingAt)
+//             )
+//           )
+//         );
+      
+//       if (dueMonitors.length === 0) {
+//         console.log('📭 No monitors due for ping at this time');
+//         return { processed: 0, succeeded: 0, failed: 0, skipped: 0 };
+//       }
+      
+//       console.log(`📊 Found ${dueMonitors.length} monitors due for ping at ${now.toISOString()}`);
+      
+//       // Process in batches of 10 to protect external network sockets and system resources
+//       const batchSize = 10;
+//       const results = {
+//         processed: 0,
+//         succeeded: 0,
+//         failed: 0,
+//         skipped: 0,
+//       };
+      
+//       for (let i = 0; i < dueMonitors.length; i += batchSize) {
+//         const batch = dueMonitors.slice(i, i + batchSize);
+//         console.log(`🔄 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(dueMonitors.length / batchSize)}`);
+        
+//         // Execute pings concurrently within the specific batch window
+//         const batchResults = await Promise.allSettled(
+//           batch.map(monitor => PingWorker.executeMonitorPing(monitor.id))
+//         );
+        
+//         for (const result of batchResults) {
+//           results.processed++;
+//           if (result.status === 'fulfilled' && result.value !== null) {
+//             results.succeeded++;
+//           } else if (result.status === 'fulfilled' && result.value === null) {
+//             results.skipped++;
+//           } else {
+//             results.failed++;
+//           }
+//         }
+        
+//         // Small cooldown delay between batches to protect external network rates
+//         if (i + batchSize < dueMonitors.length) {
+//           await new Promise(resolve => setTimeout(resolve, 1000));
+//         }
+//       }
+      
+//       console.log(`✅ Cron cycle complete: ${results.succeeded} succeeded, ${results.failed} failed, ${results.skipped} skipped`);
+//       return results;
+      
+//     } catch (error) {
+//       console.error('❌ Failed to process due monitors:', error);
+//       return { processed: 0, succeeded: 0, failed: 0, skipped: 0 };
+//     }
+//   }
 // }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -313,6 +406,7 @@
 // lib/ping-engine/worker.ts
 // CORE PING ENGINE - Aggressive wake-up detection with 60-second timeout + retries
 // Replicates Python's wake-up logic: 60s timeout, 3 retries, 5s threshold detection
+// ✅ Includes automated 30-day telemetry retention cleanup processing routines
 
 import { dbManager } from '@/lib/db';
 import { monitors, pingResults } from '@/lib/db/schema';
@@ -582,7 +676,6 @@ export class PingWorker {
       console.log(`   ${statusEmoji} ${pingResult.success ? 'SUCCESS' : 'FAILED'} | ${pingResult.responseTimeMs}ms${wakeText}`);
       
       return pingResult;
-      
     } catch (error) {
       console.error(`❌ Failed to execute ping for monitor ${monitorId}:`, error);
       return null;
@@ -624,12 +717,13 @@ export class PingWorker {
       
       if (dueMonitors.length === 0) {
         console.log('📭 No monitors due for ping at this time');
+        // Run cleanup even on empty slots to guarantee retention consistency
+        await PingWorker.cleanupOldPings();
         return { processed: 0, succeeded: 0, failed: 0, skipped: 0 };
       }
       
       console.log(`📊 Found ${dueMonitors.length} monitors due for ping at ${now.toISOString()}`);
       
-      // Process in batches of 10 to protect external network sockets and system resources
       const batchSize = 10;
       const results = {
         processed: 0,
@@ -642,7 +736,6 @@ export class PingWorker {
         const batch = dueMonitors.slice(i, i + batchSize);
         console.log(`🔄 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(dueMonitors.length / batchSize)}`);
         
-        // Execute pings concurrently within the specific batch window
         const batchResults = await Promise.allSettled(
           batch.map(monitor => PingWorker.executeMonitorPing(monitor.id))
         );
@@ -658,11 +751,13 @@ export class PingWorker {
           }
         }
         
-        // Small cooldown delay between batches to protect external network rates
         if (i + batchSize < dueMonitors.length) {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
       }
+      
+      // 🧹 RUN ROTATING AUTO-CLEANUP AT EVERY CRON INTERVAL ENDPULSE
+      await PingWorker.cleanupOldPings();
       
       console.log(`✅ Cron cycle complete: ${results.succeeded} succeeded, ${results.failed} failed, ${results.skipped} skipped`);
       return results;
@@ -672,5 +767,38 @@ export class PingWorker {
       return { processed: 0, succeeded: 0, failed: 0, skipped: 0 };
     }
   }
-}
 
+  /**
+   * Auto-cleanup old ping records based on retention policy
+   * Runs automatically during cron cycles
+   * Default retention: 30 days (configurable via environment variable)
+   */
+  static async cleanupOldPings(): Promise<{ deletedCount: number; retentionDays: number }> {
+    try {
+      const retentionDays = parseInt(process.env.PING_RETENTION_DAYS || '30');
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
+
+      if (!dbManager.isConnected()) {
+        await dbManager.connect();
+      }
+
+      const db = await dbManager.getDb();
+
+      // Execute isolation block criteria evaluation deletion
+      const deleted = await db.delete(pingResults)
+        .where(lte(pingResults.createdAt, cutoffDate))
+        .returning();
+
+      if (deleted.length > 0) {
+        console.log(`🧹 [Worker] Auto-cleanup: Purged ${deleted.length} telemetry database logs older than ${retentionDays} days`);
+      }
+
+      return { deletedCount: deleted.length, retentionDays };
+      
+    } catch (error) {
+      console.error('CRITICAL: Data retention auto-cleanup protocol failure:', error);
+      return { deletedCount: 0, retentionDays: 30 };
+    }
+  }
+}

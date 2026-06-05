@@ -15,7 +15,6 @@ build/
 dist/
 .next/cache/
 .next/trace
-APIDocx.md
 
 # ============================================
 # ENVIRONMENT VARIABLES (IMPORTANT FOR SECURITY)
@@ -113,9 +112,14 @@ Thumbs.db
 render-build.sh
 .rendercron.json
 
+APIDocx.md
+APIDocx.md
+api-docs.md
+API_DOCS.md
+
 # ============================================
 # SECURITY (Never commit these!)
 # ============================================
 # Never commit .env files with real secrets
 # Your .env.local contains DATABASE_URL and API keys
-# Keep it local only!
+# Keep it local only!APIDocx.md
