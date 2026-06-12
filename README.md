@@ -175,8 +175,6 @@ flowchart TD
     WORKER --> DB
 ```
 
-text
-
 ---
 
 ## 🚀 **Quick Start**
