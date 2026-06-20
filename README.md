@@ -26,7 +26,7 @@ markdown
   [Features](#-features) • [Tech Stack](#-tech-stack) • [Quick Start](#-quick-start) • [API Documentation](#-api-documentation) • [Deployment](#-deployment)
 
 </div>
-## 📸 **Screenshots**
+SCREENSHOTS
 
 <img width="1869" height="873" alt="PingRobot" src="https://github.com/user-attachments/assets/cf05a803-ec0c-4686-b0fb-e887cd773265" />
 <img width="942" height="439" alt="1" src="https://github.com/user-attachments/assets/79ae9e89-8d19-4296-9a2d-6a5fc5c406ba" />
