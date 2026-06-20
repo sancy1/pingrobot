@@ -1,6 +1,3 @@
-# Test Image
-
-![Test](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)
 📘 PingRobot - README.md
 markdown
 <div align="center">
@@ -136,47 +133,48 @@ Unlike standard uptime monitors that simply report downtime, PingRobot actively 
 ---
 
 ## 🏗️ **Architecture**
+┌─────────────────────────────────────────────────────────────────┐
+│ Client (Browser) │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ │
+│ │ Dashboard │ │ Add Monitor │ │ Monitor Detail / Edit │ │
+│ └─────────────┘ └─────────────┘ └─────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+│
+▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Next.js API Routes │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
+│ │ /api/auth │ │ /api/monitors│ │ /api/pings │ │
+│ └─────────────┘ └─────────────┘ └─────────────┘ │
+│ ┌─────────────┐ ┌─────────────┐ │
+│ │ /api/cron │ │ /api/health │ │
+│ └─────────────┘ └─────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+│
+▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Ping Engine (Worker) │
+│ ┌─────────────────────────────────────────────────────────────┐│
+│ │ • 60-second timeout ││
+│ │ • 3 retries with exponential backoff (3s, 9s, 27s) ││
+│ │ • Wake-up detection (>5 seconds) ││
+│ │ • JSON response capture ││
+│ │ • SSL certificate checking ││
+│ └─────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────┘
+│
+▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Neon PostgreSQL Database │
+│ ┌───────────┐ ┌──────────────┐ ┌──────────────┐ │
+│ │ monitors │ │ ping_results │ │ health_metrics│ │
+│ └───────────┘ └──────────────┘ └──────────────┘ │
+│ ┌───────────┐ │
+│ │ alerts │ │
+│ └───────────┘ │
+└─────────────────────────────────────────────────────────────────┘
 
-```mermaid
-flowchart TD
-
-    %% Client Layer
-    subgraph CLIENT["Client Layer"]
-        UI1["Dashboard"]
-        UI2["Add Monitor"]
-        UI3["Monitor Detail / Edit"]
-    end
-
-    %% API Layer
-    subgraph API["API Layer (Next.js Routes)"]
-        A1["/api/auth"]
-        A2["/api/monitors"]
-        A3["/api/pings"]
-        A4["/api/cron"]
-        A5["/api/health"]
-    end
-
-    %% Worker Layer
-    subgraph WORKER["Ping Processing Engine"]
-        W1["60s Timeout"]
-        W2["Retry Strategy"]
-        W3["Wake-Up Detection"]
-        W4["JSON Capture"]
-        W5["SSL Validation"]
-    end
-
-    %% Database Layer
-    subgraph DB["Neon PostgreSQL"]
-        D1["monitors"]
-        D2["ping_results"]
-        D3["health_metrics"]
-        D4["alerts"]
-    end
-
-    CLIENT --> API
-    API --> WORKER
-    WORKER --> DB
-```
+text
 
 ---
 
@@ -215,6 +213,7 @@ npx drizzle-kit push
 pnpm dev
 # or
 npm run dev
+```
 Access the App
 Open http://localhost:3000
 
@@ -227,7 +226,7 @@ Watch it ping automatically every minute!
 🔐 Environment Variables
 Create a .env.local file in the root directory:
 
-bash
+
 # ============================================
 # DATABASE CONFIGURATION
 # ============================================
@@ -711,6 +710,6 @@ GitHub Issues	github.com/sancy1/pingrobot/issues
 Live Demo	pingrobot-seven.vercel.app
 Email	support@pingrobot.com
 
-## 📸 Screenshots
+# Screenshots
 
-![PingRobot Dashboard](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)
+<img width="942" height="439" alt="PingRobot Dashboard" src="https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73" />
