@@ -653,14 +653,7 @@ Error: Cron job not running on Vercel
 Solution: Check that vercel.json has cron configuration and that cron jobs are enabled in Vercel dashboard.
 
 </details>
-🗺️ Roadmap
-Feature	Status	ETA
-Email notifications	⏳ Planned	Q3 2024
-Slack/Discord webhooks	⏳ Planned	Q3 2024
-Multi-region ping (paid)	⏳ Planned	Q4 2024
-Public status pages	⏳ Planned	Q4 2024
-Team/organization support	⏳ Planned	Q1 2025
-Custom metrics dashboard	⏳ Planned	Q1 2025
+
 🤝 Contributing
 Contributions are welcome! Please follow these steps:
 
@@ -689,7 +682,7 @@ This project is licensed under the MIT License.
 text
 MIT License
 
-Copyright (c) 2024 PingRobot
+Copyright (c) 2026 PingRobot
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
