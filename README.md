@@ -130,53 +130,43 @@ Unlike standard uptime monitors that simply report downtime, PingRobot actively 
 | **PWA** | Next.js Metadata + Manifest | Mobile app installation support |
 | **Deployment** | Vercel | Serverless hosting + Cron Jobs |
 
----
-
 ## 🏗️ **Architecture**
-┌─────────────────────────────────────────────────────────────────┐
-│ Client (Browser) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ │
-│ │ Dashboard │ │ Add Monitor │ │ Monitor Detail / Edit │ │
-│ └─────────────┘ └─────────────┘ └─────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────────┐
-│ Next.js API Routes │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ /api/auth │ │ /api/monitors│ │ /api/pings │ │
-│ └─────────────┘ └─────────────┘ └─────────────┘ │
-│ ┌─────────────┐ ┌─────────────┐ │
-│ │ /api/cron │ │ /api/health │ │
-│ └─────────────┘ └─────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────────┐
-│ Ping Engine (Worker) │
-│ ┌─────────────────────────────────────────────────────────────┐│
-│ │ • 60-second timeout ││
-│ │ • 3 retries with exponential backoff (3s, 9s, 27s) ││
-│ │ • Wake-up detection (>5 seconds) ││
-│ │ • JSON response capture ││
-│ │ • SSL certificate checking ││
-│ └─────────────────────────────────────────────────────────────┘│
-└─────────────────────────────────────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────────┐
-│ Neon PostgreSQL Database │
-│ ┌───────────┐ ┌──────────────┐ ┌──────────────┐ │
-│ │ monitors │ │ ping_results │ │ health_metrics│ │
-│ └───────────┘ └──────────────┘ └──────────────┘ │
-│ ┌───────────┐ │
-│ │ alerts │ │
-│ └───────────┘ │
-└─────────────────────────────────────────────────────────────────┘
 
-text
-
----
+```mermaid
+graph TD
+    A[🌐 Client Browser] --> B[⚡ Next.js API Routes]
+    B --> C[🚀 Ping Engine Worker]
+    C --> D[🗄️ Neon PostgreSQL]
+    
+    subgraph A
+        A1[📊 Dashboard]
+        A2[➕ Add Monitor]
+        A3[✏️ Monitor Detail/Edit]
+    end
+    
+    subgraph B
+        B1[🔐 /api/auth]
+        B2[📋 /api/monitors]
+        B3[📡 /api/pings]
+        B4[⏰ /api/cron]
+        B5[❤️ /api/health]
+    end
+    
+    subgraph C
+        C1[⏱️ 60-second timeout]
+        C2[🔄 3 retries: 3s, 9s, 27s]
+        C3[⏰ Wake-up detection]
+        C4[📦 JSON capture]
+        C5[🔒 SSL checking]
+    end
+    
+    subgraph D
+        D1[(📋 monitors)]
+        D2[(📊 ping_results)]
+        D3[(📈 health_metrics)]
+        D4[(🔔 alerts)]
+    end
+```
 
 ## 🚀 **Quick Start**
 
