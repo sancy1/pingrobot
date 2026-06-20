@@ -707,3 +707,7 @@ Channel	Link
 GitHub Issues	github.com/sancy1/pingrobot/issues
 Live Demo	pingrobot-seven.vercel.app
 Email	support@pingrobot.com
+
+SCREENSHOTS
+<img width="1869" height="873" alt="PingRobot" src="https://github.com/user-attachments/assets/74d2b5f0-c5db-4c66-96d8-2cd49b4094e9" />
+
