@@ -702,6 +702,6 @@ Lucide Icons - Beautiful icons
 
 📞 Contact & Support
 Channel	Link
-GitHub Issues	github.com/sancy1/pingrobot/issues
-Live Demo	pingrobot-seven.vercel.app
-Email	support@pingrobot.com
+GitHub Issues:	github.com/sancy1/pingrobot/issues
+Live Demo:	pingrobot-seven.vercel.app
+Email:	alexander.s.cyril@gmail.com
