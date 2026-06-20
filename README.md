@@ -708,7 +708,6 @@ GitHub Issues	github.com/sancy1/pingrobot/issues
 Live Demo	pingrobot-seven.vercel.app
 Email	support@pingrobot.com
 
-SCREENSHOTS
 ## 📸 Screenshots
 
 ![PingRobot Dashboard](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)
