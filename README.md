@@ -213,7 +213,6 @@ npx drizzle-kit push
 pnpm dev
 # or
 npm run dev
-
 Access the App
 Open http://localhost:3000
 
@@ -226,7 +225,7 @@ Watch it ping automatically every minute!
 🔐 Environment Variables
 Create a .env.local file in the root directory:
 
-
+bash
 # ============================================
 # DATABASE CONFIGURATION
 # ============================================
@@ -657,7 +656,14 @@ Error: Cron job not running on Vercel
 Solution: Check that vercel.json has cron configuration and that cron jobs are enabled in Vercel dashboard.
 
 </details>
-
+🗺️ Roadmap
+Feature	Status	ETA
+Email notifications	⏳ Planned	Q3 2024
+Slack/Discord webhooks	⏳ Planned	Q3 2024
+Multi-region ping (paid)	⏳ Planned	Q4 2024
+Public status pages	⏳ Planned	Q4 2024
+Team/organization support	⏳ Planned	Q1 2025
+Custom metrics dashboard	⏳ Planned	Q1 2025
 🤝 Contributing
 Contributions are welcome! Please follow these steps:
 
@@ -686,7 +692,7 @@ This project is licensed under the MIT License.
 text
 MIT License
 
-Copyright (c) 2026 PingRobot
+Copyright (c) 2024 PingRobot
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -709,16 +715,3 @@ Channel	Link
 GitHub Issues	github.com/sancy1/pingrobot/issues
 Live Demo	pingrobot-seven.vercel.app
 Email	support@pingrobot.com
-
-
-# Screenshots
-[![PingRobot](https://github.com/user-attachments/assets/5c141f14-cdaa-4f07-a9c0-48bed9599bf7)](https://github.com/user-attachments/assets/5c141f14-cdaa-4f07-a9c0-48bed9599bf7)
-
-[![PingRobot Dashboard](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)
-
-[![2](https://github.com/user-attachments/assets/0352a387-9784-4bec-9d7a-8557e3acf1bf)](https://github.com/user-attachments/assets/0352a387-9784-4bec-9d7a-8557e3acf1bf)
-
-[![3](https://github.com/user-attachments/assets/d9cd4262-cc69-4521-9eda-e9d6f70d17ce)](https://github.com/user-attachments/assets/d9cd4262-cc69-4521-9eda-e9d6f70d17ce)
-
-
-
