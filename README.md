@@ -709,5 +709,6 @@ Live Demo	pingrobot-seven.vercel.app
 Email	support@pingrobot.com
 
 SCREENSHOTS
-<img width="1869" height="873" alt="PingRobot" src="https://github.com/user-attachments/assets/74d2b5f0-c5db-4c66-96d8-2cd49b4094e9" />
+
+<img width="942" height="439" alt="1" src="https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73" />
 
