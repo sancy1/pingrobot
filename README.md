@@ -712,21 +712,13 @@ Email	support@pingrobot.com
 
 
 # Screenshots
-<a href="https://github.com/user-attachments/assets/5c141f14-cdaa-4f07-a9c0-48bed9599bf7" target="_blank">
-  <img width="1869" height="873" alt="PingRobot" src="https://github.com/user-attachments/assets/5c141f14-cdaa-4f07-a9c0-48bed9599bf7" />
-</a>
+[![PingRobot](https://github.com/user-attachments/assets/5c141f14-cdaa-4f07-a9c0-48bed9599bf7)](https://github.com/user-attachments/assets/5c141f14-cdaa-4f07-a9c0-48bed9599bf7)
 
-<a href="https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73" target="_blank">
-  <img width="942" height="439" alt="PingRobot Dashboard" src="https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73" />
-</a>
+[![PingRobot Dashboard](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)](https://github.com/user-attachments/assets/984442c2-7ad0-491b-afa2-a6dc72d02f73)
 
-<a href="https://github.com/user-attachments/assets/0352a387-9784-4bec-9d7a-8557e3acf1bf" target="_blank">
-  <img width="1019" height="759" alt="2" src="https://github.com/user-attachments/assets/0352a387-9784-4bec-9d7a-8557e3acf1bf" />
-</a>
+[![2](https://github.com/user-attachments/assets/0352a387-9784-4bec-9d7a-8557e3acf1bf)](https://github.com/user-attachments/assets/0352a387-9784-4bec-9d7a-8557e3acf1bf)
 
-<a href="https://github.com/user-attachments/assets/d9cd4262-cc69-4521-9eda-e9d6f70d17ce" target="_blank">
-  <img width="1328" height="870" alt="3" src="https://github.com/user-attachments/assets/d9cd4262-cc69-4521-9eda-e9d6f70d17ce" />
-</a>
+[![3](https://github.com/user-attachments/assets/d9cd4262-cc69-4521-9eda-e9d6f70d17ce)](https://github.com/user-attachments/assets/d9cd4262-cc69-4521-9eda-e9d6f70d17ce)
 
 
 
